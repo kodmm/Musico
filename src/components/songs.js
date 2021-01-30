@@ -2,7 +2,7 @@ import React, {useState } from 'react';
 import axios from 'axios';
 import PlaylistForm from './playlistForm';
 import ArtistData from './artistdata.js';
-import '../styles/songs.css'
+import '../styles/songs.css';
 const Songs = () => {
 
     let [showPopup, setShowPopup] = useState(false)
@@ -12,10 +12,11 @@ const Songs = () => {
         ArtistName: '',
         AlbumName: '',
         AlbumUrl: '',
+        AlbumUrl60: '',
         AlbumGenre: '',
         AlbumRelease: '',
         trackName: ''
-    }]);
+    }])
 
     async function itunesGet(params){
         try{
@@ -29,6 +30,7 @@ const Songs = () => {
                     ArtistName: value.artistName,
                     AlbumName: value.collectionName, 
                     AlbumUrl: value.artworkUrl100,
+                    AlbumUrl60: value.artworkUrl60,
                     AlbumGenre: value.primaryGenreName,
                     AlbumRelease: value.releaseDate,
                     trackName: value.trackName
@@ -82,6 +84,7 @@ const Songs = () => {
                     name={artistdata.ArtistName}
                     album={artistdata.AlbumName}
                     albumUrl={artistdata.AlbumUrl}
+                    AlbumUrl60={artistdata.AlbumUrl60}
                     genre={artistdata.AlbumGenre}
                     release={artistdata.AlbumRelease}
                     trackName={artistdata.trackName}
