@@ -1,0 +1,7 @@
+.showform {
+    display: table-cell;
+    transition: all 1s erase-out
+}
+.hiddenform {
+    display: none;
+}

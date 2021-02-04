@@ -104,6 +104,6 @@ form button:hover {
 
 .album:hover .mask {
     opacity:		1;	/* マスクを完全に不透明表示する */
-    padding-top:		80px;	/* ホバーで下にずらす */
+    padding-top:		10px;	/* ホバーで下にずらす */
     top: 0;
 }

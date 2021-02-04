@@ -1,12 +1,71 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
 import axios from 'axios'
 const ArtistData = (props) => {
 
+    const history = useHistory();
+    
+    useEffect(() => {
+        
+            axios.get('/api/v1/playlist', {
+                params: {
+                    id: 2
+                }
+            })
+            .then(response => {
+                
+                setPlaylists(response.data.Playlists)
+                setPlaylistValue(response.data.Playlists[0].name)
+            }).catch(err => console.log(err));
+        
+        
+    },[])
+    
+    
+    const [playlists, setPlaylists] = useState([]);
+    const [playlistValue, setPlaylistValue] = useState(null);
+
+    const handlePlaylistChange = e => {
+        setPlaylistValue(e.target.selectedOptions[0].text);
+       
+    }
+
+
+    const handlePlaylistSubmit = event => {
+        event.preventDefault();
+        const playlist_id = event.target.playlist.value;
+        const customer_id = event.target.customer_id.value;
+        const track_id = event.target.track_id.value;
+        const name = event.target.name.value;
+        const artist_name = event.target.artist_name.value;
+        const album_name = event.target.album_name.value;
+        const album_url = event.target.album_url.value;
+        const genre = event.target.genre.value;
+        const release_at = event.target.release_at.value;
+        axios.post('/api/v1/playlist/relation', {
+            customer_id: 2,
+            song: {
+                trackId: track_id,
+                name: name,
+                artistName: artist_name,
+                albumName: album_name,
+                albumUrl: album_url,
+                genre: genre,
+                releaseAt: release_at
+            },
+            playlistId: playlist_id
+            
+        })
+        .then(response => {
+            console.log(response.data.msg);
+        })
+    }
     const favoriteSubmit = (event) => {
         event.preventDefault();
-        console.log(event.target.elements);
-        console.log(event.target.customer_id.value);
+        // console.log(event.target.elements);
+        // console.log(event.target.customer_id.value);
         const customer_id = event.target.customer_id.value;
         const track_id = event.target.track_id.value;
         const name = event.target.name.value;
@@ -48,7 +107,7 @@ const ArtistData = (props) => {
                     <p>{props.album}</p>
                     <div className="favorite">
                         <form onSubmit={event => favoriteSubmit(event)}>
-                            <div>
+                            
                                 <input type="hidden" name="customer_id" value="2" />
                                 <input type="hidden" name="track_id" value={props.id} />
                                 <input type="hidden" name="name" value={props.trackName} />
@@ -57,8 +116,37 @@ const ArtistData = (props) => {
                                 <input type="hidden" name="album_url" value={props.AlbumUrl60} />
                                 <input type="hidden" name="genre" value={props.genre} />
                                 <input type="hidden" name="release_at" value={props.release} />
-                            </div>
+                        
                             <button type="submit"><FavoriteBorderIcon /></button>
+                        </form>
+                    </div>
+                    <div className="playlist">
+                        <form onSubmit={handlePlaylistSubmit}>
+                            
+                                <input type="hidden" name="customer_id" value="2" />
+                                <input type="hidden" name="track_id" value={props.id} />
+                                <input type="hidden" name="name" value={props.trackName} />
+                                <input type="hidden" name="artist_name" value={props.name} />
+                                <input type="hidden" name="album_name" value={props.album} />
+                                <input type="hidden" name="album_url" value={props.AlbumUrl60} />
+                                <input type="hidden" name="genre" value={props.genre} />
+                                <input type="hidden" name="release_at" value={props.release} />
+                            
+                            <div>
+                                <label htmlFor="playlist">Playlist</label>
+                                <select name="playlist" onChange={handlePlaylistChange}>
+                                    {
+                                     playlists.map(playlist => (
+                                        <option value={playlist.id} key={playlist.id}>{playlist.name}</option>
+                                         
+                                     ))
+                                    }
+                                    
+                                    
+                                    
+                                </select>
+                            </div>
+                            <button type="submit">{playlistValue + 'に'}追加</button>
                         </form>
                     </div>
                     
