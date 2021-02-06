@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
 import axios from 'axios'
 const ArtistData = (props) => {
 
@@ -146,7 +147,7 @@ const ArtistData = (props) => {
                                     
                                 </select>
                             </div>
-                            <button type="submit">{playlistValue + 'に'}追加</button>
+                            <Button type="submit" size="small" variant="contained" color="primary">{playlistValue + 'に'}追加</Button>
                         </form>
                     </div>
                     

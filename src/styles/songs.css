@@ -1,5 +1,5 @@
 * {
-    margin: 0 auto;
+    
     padding: 0;
     box-sizing: border-box;
 }
@@ -9,31 +9,31 @@
     height: 100%;
     position: relative;
 }
-form > :first-child  {
+.formSongs > :first-child  {
     outline: none;
     border: 1px solid #aaa;
     transition: all .3s;
     border-radius: 2px;
   }
-form > :first-child {
+.formSongs > :first-child {
     width: 400px;
     font-size: 18px;
     height: 24px;
     padding: 2px 8px;
   }
-form > :nth-child(1):focus {
+.formSongs > :nth-child(1):focus {
     box-shadow: 0 0 7px #1abc9c;
     border: 1px solid #1abc9c;
 }
 
-form > :last-child {
+.formSongs > :last-child {
     margin-top: 4px;
     margin-left: 7px;
     font-size: 16px;
     height: 40px;
     padding: 2px 8px;
 }
-form button {
+.formSongs button {
     border: 1px solid #ccc;
     background-color: #FFFFFF;
     
@@ -41,7 +41,7 @@ form button {
     cursor: pointer;
     box-shadow: 0px 2px 2px 0px rgba(0,0,0,.1);
 }
-form button:hover {
+.formSongs button:hover {
     box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, .1);
     
 }
@@ -73,7 +73,7 @@ form button:hover {
 
 .album {
     width:			300px;
-    height:			230px;
+    height:			260px;
     overflow:		hidden; 
     margin:			10px 8px 10px 16px;
     position: relative;
