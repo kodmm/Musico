@@ -3,6 +3,8 @@ import axios from 'axios';
 import PlaylistForm from './playlistForm';
 import ArtistData from './artistdata.js';
 import '../styles/songs.css';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 const Songs = () => {
 
     let [showPopup, setShowPopup] = useState(false)
@@ -52,56 +54,64 @@ const Songs = () => {
     };
 
     return (
-        <div className="songs">
-            <button onClick={() => setShowPopup(!showPopup)} >Create Playlist</button>
-            <form
-                onSubmit = {e => {
-                    e.preventDefault();
-                    const artistnameElement = e.target.elements["artist"];
-                    console.log(artistnameElement.value);
+        <Grid container className="songs">
+            <Grid item md={5}>
+                <Button variant="outlined" color="primary" onClick={() => setShowPopup(!showPopup)} >Create Playlist</Button>
+            </Grid>
+            <Grid item md={7}>
+                <form
+                    className="formSongs"
+                    onSubmit = {e => {
+                        e.preventDefault();
+                        const artistnameElement = e.target.elements["artist"];
+                        console.log(artistnameElement.value);
 
-                    itunesGet(artistnameElement.value);
+                        itunesGet(artistnameElement.value);
 
-                    setArtist(artistnameElement.value);
+                        setArtist(artistnameElement.value);
 
-                    artistnameElement.value = '';
-       
-                }}
-            >
-                <input type="text" id="artist"
-                    placeholder="アーティスト名または曲名を入力してください"
-                />
-                <button type="submit">検索する</button>
+                        artistnameElement.value = '';
+        
+                    }}
+                >
+                    <input type="text" id="artist"
+                        placeholder="アーティスト名または曲名を入力してください"
+                    />
+                    <button type="submit">検索する</button>
 
 
-            </form>
-            <p className="result">検索結果: <b>{artist}</b></p>
-            <div className="searchresult">
-            {artistData.map(artistdata => (
-                <ArtistData 
-                    key={artistdata.trackId.toString()}
-                    id={artistdata.trackId}
-                    name={artistdata.ArtistName}
-                    album={artistdata.AlbumName}
-                    albumUrl={artistdata.AlbumUrl}
-                    AlbumUrl60={artistdata.AlbumUrl60}
-                    genre={artistdata.AlbumGenre}
-                    release={artistdata.AlbumRelease}
-                    trackName={artistdata.trackName}
-                    
-                />
-                    
-            )
-            )}
-            </div>
-           {showPopup ?
-            <PlaylistForm
-                closePopup={setShowPopup}
-                isPopup={showPopup}
-            />
-            : null
-           }
-        </div>
+                </form>
+            </Grid>
+            <Grid item container md>
+                <p className="result">検索結果: <b>{artist}</b></p>
+                <div className="searchresult">
+                {artistData.map(artistdata => (
+                    <ArtistData 
+                        key={artistdata.trackId.toString()}
+                        id={artistdata.trackId}
+                        name={artistdata.ArtistName}
+                        album={artistdata.AlbumName}
+                        albumUrl={artistdata.AlbumUrl}
+                        AlbumUrl60={artistdata.AlbumUrl60}
+                        genre={artistdata.AlbumGenre}
+                        release={artistdata.AlbumRelease}
+                        trackName={artistdata.trackName}
+                        
+                    />
+                        
+                )
+                )}
+                </div>
+                {showPopup ?
+                    <PlaylistForm
+                        closePopup={setShowPopup}
+                        isPopup={showPopup}
+                    />
+                    : null
+                }
+            </Grid> 
+            
+        </Grid>
     )
 }
 
