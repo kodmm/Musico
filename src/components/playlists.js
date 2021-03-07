@@ -18,18 +18,33 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
-
+import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
     grid: {
         margin: theme.spacing(2),
+        marginRight: theme.spacing(4)
         
+    },
+    table: {
+        backgroundColor: "#FFFFFF"
     },
     linkBorder: {
         textDecoration: "none",
+        color: "rgba(0, 0, 0, 0.87)"
     },
-    playlist: {
+    playlistsNav: {
         backgroundColor: "#f5f5f5"
-    }
+    },
+    playlistNameTable: {
+        '&:hover': {
+            backgroundColor: "#e8eaf6"
+        },
+        transition: "all 0.5s"
+    },
+    playlistCenterCell: {
+        textAlign: "center"
+    },
+    
 
 
 }))
@@ -81,10 +96,10 @@ const Playlists = () => {
     return(
         <Grid container className={classes.grid}>
             <Grid item md={2} item className={classes.grid}>
-                <List component="nav" aria-label="mailbox folders" className={classes.playlist}>
+                <List component="nav" className={classes.playlistNav}>
                     
                     {playlists.map(playlist => (
-                            <Link to={"/playlist/" + playlist.name } className={classes.linkBorder}>
+                            <Link to={"/playlist/" + playlist.name } className={classes.linkBorder} >
                                 <ListItem button><ListItemText primary={playlist.name} /></ListItem>
                             </Link>
                             
@@ -95,7 +110,7 @@ const Playlists = () => {
                 
             </Grid>
             <Grid item md={7} >
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} className={classes.table}>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -112,9 +127,11 @@ const Playlists = () => {
                         <TableBody>
                             {playlists.map(playlist => (
                                 <TableRow key={playlist.id.toString()}>
-                                    <TableCell>{playlist.name}</TableCell>
-                                    {playlist.isPublic ? <TableCell>公開</TableCell> : <TableCell>非公開</TableCell> }
-                                    <TableCell><button  onClick={handleOpen}>
+                                    <TableCell component={Link} to={"/playlist/" + playlist.name } className={classes.linkBorder + " " + classes.playlistNameTable} button>
+                                        <Typography variant="body1">{playlist.name}</Typography>
+                                    </TableCell>
+                                    {playlist.isPublic ? <TableCell className={classes.playlistCenterCell}>公開</TableCell> : <TableCell className={classes.playlistCenterCell}>非公開</TableCell> }
+                                    <TableCell className={classes.playlistCenterCell}><button  onClick={handleOpen}>
                                             <SettingsApplicationsIcon 
                                             color="disabled"
                                             fontSize="large"

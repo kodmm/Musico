@@ -56,13 +56,13 @@ const Playlist = () => {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>ジャケ写</TableCell>
-                                <TableCell>曲名</TableCell>
-                                <TableCell>アーティスト名</TableCell>
-                                <TableCell>アルバム名</TableCell>
-                                <TableCell>ジャンル</TableCell>
-                                <TableCell>リリース日</TableCell>
-                                <TableCell></TableCell>
+                                <th>ジャケ写</th>
+                                <th>曲名</th>
+                                <th>アーティスト名</th>
+                                <th>アルバム名</th>
+                                <th>ジャンル</th>
+                                <th>リリース日</th>
+                                <th></th>
                             </TableRow>
                         </TableHead>
                         <TableBody>
