@@ -17,7 +17,22 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    grid: {
+        margin: theme.spacing(2),
+        
+    },
+    linkBorder: {
+        textDecoration: "none",
+    },
+    playlist: {
+        backgroundColor: "#f5f5f5"
+    }
+
+
+}))
 
 
 const Playlists = () => {
@@ -25,6 +40,9 @@ const Playlists = () => {
     const [playlist, setPlaylist] = useState(null);
     const [open, setOpen] = useState(false);
     const inputIsPublic = useRef(null);
+
+    const classes = useStyles();
+
     useEffect(() => {
         axios.get('/api/v1/playlist', {
             params: {
@@ -58,13 +76,15 @@ const Playlists = () => {
         })
     }
 
+    
+    
     return(
-        <Grid container spacing={8}>
-            <Grid item md={3}>
-                <List component="nav" aria-label="mailbox folders">
+        <Grid container className={classes.grid}>
+            <Grid item md={2} item className={classes.grid}>
+                <List component="nav" aria-label="mailbox folders" className={classes.playlist}>
                     
                     {playlists.map(playlist => (
-                            <Link to={"/playlist/" + playlist.name }>
+                            <Link to={"/playlist/" + playlist.name } className={classes.linkBorder}>
                                 <ListItem button><ListItemText primary={playlist.name} /></ListItem>
                             </Link>
                             
