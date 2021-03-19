@@ -50,8 +50,8 @@ const Playlist = () => {
             <Grid item md={12}>
                 <h2>{name}</h2>
             </Grid>
-            <Grid item md={3}></Grid>
-            <Grid item md={6} spacing={8}>
+            <Grid item md={2}></Grid>
+            <Grid item md={7} spacing={8}>
                 <TableContainer component={Paper}>
                     <Table aria-label="simple table">
                         <TableHead>
