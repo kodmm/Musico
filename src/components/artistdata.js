@@ -112,6 +112,7 @@ const ArtistData = (props) => {
         })
         .then(response => {
             console.log(response.data.msg);
+            toggleDrawer(false)
         })
     }
     const favoriteSubmit = (event) => {
