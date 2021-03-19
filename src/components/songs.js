@@ -1,13 +1,49 @@
-import React, {useState } from 'react';
+import React, {useState, useRef } from 'react';
 import axios from 'axios';
 import PlaylistForm from './playlistForm';
 import ArtistData from './artistdata.js';
 import '../styles/songs.css';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-const Songs = () => {
+import Backdrop from '@material-ui/core/Backdrop';
+import { Modal } from '@material-ui/core';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
+import SearchIcon from '@material-ui/icons/Search';
+import Paper from '@material-ui/core/Paper';
+const useStyles = makeStyles(theme => ({
+    root: {
+        margin: theme.spacing(2)
+    },
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: 400
 
-    let [showPopup, setShowPopup] = useState(false)
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1
+    },
+    album: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+    },
+}))
+
+const Songs = () => {
+    const classes = useStyles();
+    const artistInput = useRef(null)
+    const [open, setOpen] = useState(false);
     const [artist, setArtist] = useState('');
     const [artistData, setArtistData] = useState([{
         trackId: '',
@@ -19,6 +55,9 @@ const Songs = () => {
         AlbumRelease: '',
         trackName: ''
     }])
+
+    const handleOpen = () => { setOpen(true) };
+    const handleClose = () => { setOpen(false) };
 
     async function itunesGet(params){
         try{
@@ -54,37 +93,63 @@ const Songs = () => {
     };
 
     return (
-        <Grid container className="songs">
+        <Grid container className={classes.root}>
             <Grid item md={5}>
-                <Button variant="outlined" color="primary" onClick={() => setShowPopup(!showPopup)} >Create Playlist</Button>
+                <Button variant="outlined" color="primary" onClick={handleOpen} >Create Playlist</Button>
+                <Modal
+                    aria-labelledby="transition-modal-form"
+                    aria-describedby="transition-modal-createPlaylist"
+                    className={classes.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                >
+                    <Fade in={open}>
+                        <PlaylistForm />
+                        
+                    </Fade>
+                </Modal>
+                
+                    
             </Grid>
             <Grid item md={7}>
-                <form
-                    className="formSongs"
+                <Paper component="form" 
+                    className={classes.paper}
                     onSubmit = {e => {
                         e.preventDefault();
-                        const artistnameElement = e.target.elements["artist"];
-                        console.log(artistnameElement.value);
+                        console.log(artistInput.current.value);
 
-                        itunesGet(artistnameElement.value);
+                        itunesGet(artistInput.current.value);
 
-                        setArtist(artistnameElement.value);
+                        setArtist(artistInput.current.value);
 
-                        artistnameElement.value = '';
+                        artistInput.current.value = '';
         
                     }}
                 >
-                    <input type="text" id="artist"
-                        placeholder="アーティスト名または曲名を入力してください"
+                    <InputBase
+                        className={classes.input}
+                        placeholder="Search Music or Artist name"
+                        id="artist"
+                        inputRef={artistInput}
+                        inputProps={{ 'aria-label': 'search music or artist name'}}
                     />
-                    <button type="submit">検索する</button>
+                    <IconButton type="submit" aria-label="search">
+                        <SearchIcon />
 
-
-                </form>
+                    </IconButton>
+                </Paper>
             </Grid>
-            <Grid item container md>
-                <p className="result">検索結果: <b>{artist}</b></p>
-                <div className="searchresult">
+            
+            <Grid container >
+                <Grid item md={12}>
+                    <p className="result">検索結果: <b>{artist}</b></p>
+                </Grid>
+                <Grid item md={12} className={classes.album}>
                 {artistData.map(artistdata => (
                     <ArtistData 
                         key={artistdata.trackId.toString()}
@@ -101,14 +166,7 @@ const Songs = () => {
                         
                 )
                 )}
-                </div>
-                {showPopup ?
-                    <PlaylistForm
-                        closePopup={setShowPopup}
-                        isPopup={showPopup}
-                    />
-                    : null
-                }
+                </Grid>
             </Grid> 
             
         </Grid>
